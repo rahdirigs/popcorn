@@ -1,6 +1,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/nosql_db.js'
+import sql_db from './config/sql_db.js'
+import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 import movieRoutes from './routes/movieRoutes.js'
 
 dotenv.config()
@@ -11,7 +13,20 @@ const app = express()
 
 app.use('/api/movies', movieRoutes)
 
-app.get('/api/movies/:id')
+app.use(notFound)
+
+app.use(errorHandler)
+
+app.get('/', (req, res) => {
+  res.send('API is running...')
+  sql_db.query('SHOW TABLES', (err, result) => {
+    if (err) {
+      console.error(err)
+    } else {
+      console.log(result)
+    }
+  })
+})
 
 const PORT = process.env.PORT || 5000
 

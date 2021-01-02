@@ -27,7 +27,8 @@ router.get(
     if (movie) {
       res.json(movie)
     } else {
-      res.status(404).json({ message: 'Movie not found' })
+      res.status(404)
+      throw new Error('Movie not found')
     }
   })
 )
