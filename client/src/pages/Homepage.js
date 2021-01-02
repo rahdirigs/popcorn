@@ -1,29 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Movie from '../components/Movie'
+import { listMovies } from '../actions/movieActions'
+import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
 const Homepage = () => {
-  const [movies, setMovies] = useState([])
+  const dispatch = useDispatch()
+
+  const movieList = useSelector(state => state.movieList)
+  const { loading, error, movies } = movieList
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const { data } = await axios.get('/api/movies')
-      setMovies(data)
-    }
-    fetchMovies()
-  }, [])
+    dispatch(listMovies())
+  }, [dispatch])
 
   return (
     <>
       <h1>Our recommendation</h1>
-      <Row>
-        {movies.map(movie => (
-          <Col key={movie.refId} sm={12} md={6} lg={4} xl={3}>
-            <Movie movie={movie} />
-          </Col>
-        ))}
-      </Row>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message>{error}</Message>
+      ) : (
+        <Row>
+          {movies.map(movie => (
+            <Col key={movie.refId} sm={12} md={6} lg={4} xl={3}>
+              <Movie movie={movie} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </>
   )
 }

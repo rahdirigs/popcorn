@@ -1,28 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
 import Rating from '../components/Rating'
+import { listMovieDetails } from '../actions/movieActions'
+import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
 const Moviepage = ({ match }) => {
-  const [movie, setMovie] = useState({})
+  const dispatch = useDispatch()
+
+  const movieDetails = useSelector(state => state.movieDetails)
+  const { loading, error, movie } = movieDetails
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      const { data } = await axios.get(`/api/movies/${match.params.id}`)
-      setMovie(data)
-    }
-
-    fetchMovie()
-  }, [match])
+    dispatch(listMovieDetails(match.params.id))
+  }, [match, dispatch])
 
   return (
     <>
       <Link className="btn btn-primary my-3" to="/">
         Go Back
       </Link>
-      {movie && (
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message>{error}</Message>
+      ) : (
         <Row>
           <Col md={4}>
             <Image src={movie.image} alt={movie.name} fluid />
