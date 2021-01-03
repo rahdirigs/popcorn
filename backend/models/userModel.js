@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema(
     watched: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Movies',
+        ref: 'Show',
       },
     ],
   },
