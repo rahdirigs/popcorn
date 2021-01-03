@@ -105,7 +105,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 //@desc Get user profile
 //@route GET /api/users/profile
-//@access public
+//@access private
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
 
@@ -126,4 +126,55 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, getUserProfile, registerUser }
+//@desc Update user profile
+//@route PUT /api/users/profile
+//@access private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    user.contact = req.body.contact || user.contact
+    let sqlpassword
+    if (req.body.password) {
+      user.password = req.body.password
+      sqlpassword = req.body.password
+    } else {
+      sql_db.query(
+        'SELECT password from users WHERE email = ?',
+        [user.email],
+        (err, result) => {
+          sqlpassword = result[0].password
+        }
+      )
+    }
+    const updatedUser = await user.save()
+
+    sql_db.query(
+      'UPDATE users SET password = (?), contact = (?) WHERE email = ?',
+      [sqlpassword, updatedUser.contact, updatedUser.email],
+      (err, result) => {
+        if (err) {
+          console.error(err)
+        } else {
+          console.log(result)
+        }
+      }
+    )
+    res.json({
+      _id: updatedUser._id,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      email: updatedUser.email,
+      dateOfBirth: updatedUser.dateOfBirth,
+      contact: updatedUser.contact,
+      genres: updatedUser.genres,
+      watched: updatedUser.watched,
+      token: generateToken(updatedUser._id),
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+export { authUser, getUserProfile, registerUser, updateUserProfile }
