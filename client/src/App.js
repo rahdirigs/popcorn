@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Homepage from './pages/Homepage'
 import Moviepage from './pages/Moviepage'
 import Loginpage from './pages/Loginpage'
+import Registerpage from './pages/Registerpage'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <main className="py-3">
         <Container>
           <Route path="/login" component={Loginpage} />
+          <Route path="/register" component={Registerpage} />
           <Route path="/movie/:id" component={Moviepage} exact />
           <Route path="/" component={Homepage} exact />
         </Container>
