@@ -28,4 +28,4 @@ const useStorage = file => {
   return { progress, url, error }
 }
 
-export default useStorage
+export { useStorage }

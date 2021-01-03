@@ -36,13 +36,13 @@ const App = () => {
           <Route path="/add/movies" component={AddMoviepage} />
           <Route path="/add/refreshments" component={AddRefreshmentpage} />
           <Route path="/add/shows" component={AddShowpage} />
-          <Route path="/update/employees" component={UpdateEmployeepage} />
-          <Route path="/update/movies" component={UpdateMoviepage} />
+          <Route path="/update/employees/:id" component={UpdateEmployeepage} />
+          <Route path="/update/movies/:id" component={UpdateMoviepage} />
           <Route
-            path="/update/refreshments"
+            path="/update/refreshments/:id"
             component={UpdateRefreshmentpage}
           />
-          <Route path="/update/shows" component={UpdateShowpage} />
+          <Route path="/update/shows/:id" component={UpdateShowpage} />
         </Container>
       </main>
       <Footer />
