@@ -57,6 +57,7 @@ const Addrefreshmentpage = ({ history }) => {
         snap => {
           let percentage = (snap.bytesTransferred / snap.totalBytes) * 100
           setProgress(percentage)
+          console.log(progress)
         },
         err => {
           setUploadError(err)
