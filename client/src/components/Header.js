@@ -1,8 +1,18 @@
 import React from 'react'
 import { Container, Image, Nav, Navbar } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../actions/userActions'
 
 const Header = () => {
+  const dispatch = useDispatch()
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
+
+  const logoutHandler = e => {
+    dispatch(logout())
+  }
+
   return (
     <header>
       <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
@@ -27,12 +37,26 @@ const Header = () => {
                   Watch History
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/login">
-                <Nav.Link>
-                  <i className="fas fa-user mx-2"></i>
-                  Sign In
-                </Nav.Link>
-              </LinkContainer>
+              {userInfo ? (
+                <>
+                  <LinkContainer to="/profile">
+                    <Nav.Link>
+                      <i className="fas fa-user mx-2"></i>Hello{' '}
+                      {userInfo.firstName}
+                    </Nav.Link>
+                  </LinkContainer>
+                  <Nav.Link onClick={logoutHandler}>
+                    <i className="fas fa-sign-out-alt mx-2"></i>Logout
+                  </Nav.Link>
+                </>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-user mx-2"></i>
+                    Sign In
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
