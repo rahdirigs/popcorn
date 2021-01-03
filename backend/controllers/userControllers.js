@@ -68,25 +68,24 @@ const registerUser = asyncHandler(async (req, res) => {
     pincode,
   })
 
-  const {
-    err,
-    result,
-  } = sql_db.query(
-    'INSERT INTO users (firstName, lastName, email, password, contact, addressLineOne, addressLineTwo, city, pincode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-    [
-      firstName,
-      lastName,
-      email,
-      password,
-      contact,
-      addressLineOne,
-      addressLineTwo,
-      city,
-      pincode,
-    ]
-  )
-
   if (user) {
+    const {
+      err,
+      result,
+    } = sql_db.query(
+      'INSERT INTO users (firstName, lastName, email, password, contact, addressLineOne, addressLineTwo, city, pincode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [
+        firstName,
+        lastName,
+        email,
+        password,
+        contact,
+        addressLineOne,
+        addressLineTwo,
+        city,
+        pincode,
+      ]
+    )
     res.status(201).json({
       _id: user._id,
       firstName: user.firstName,
