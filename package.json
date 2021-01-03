@@ -9,7 +9,7 @@
     "server": "nodemon backend/server",
     "client": "npm start --prefix client",
     "admin": "npm start --prefix admin",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run admin\"",
     "data:import": "node backend/seeder",
     "data:destroy": "node backend/seeder -d"
   },
