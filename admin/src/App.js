@@ -7,6 +7,9 @@ import HomePage from './pages/HomePage'
 import RefreshmentListPage from './pages/RefreshmentListPage'
 import RefreshmentAddPage from './pages/RefreshmentAddPage'
 import RefreshmentEditPage from './pages/RefreshmentEditPage'
+import MovieListPage from './pages/MovieListPage'
+import MovieAddPage from './pages/MovieAddPage'
+import MovieEditPage from './pages/MovieEditPage'
 
 const App = () => {
   return (
@@ -21,6 +24,9 @@ const App = () => {
             path="/edit/refreshments/:id"
             component={RefreshmentEditPage}
           />
+          <Route path="/movies" component={MovieListPage} />
+          <Route path="/add/movies" component={MovieAddPage} />
+          <Route path="/edit/movies/:id" component={MovieEditPage} />
         </Container>
       </main>
       <Footer />
