@@ -3,21 +3,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Homepage from './pages/Homepage'
-import Refreshmentpage from './pages/Refreshmentpage'
-import Employeespage from './pages/Employeespage'
-import Moviespage from './pages/Moviespage'
-import Showspage from './pages/Showspage'
-import Reportspage from './pages/Reportspage'
-import Utilitiespage from './pages/Utilitiespage'
-import AddEmployeepage from './pages/addpages/AddEmployeepage'
-import AddMoviepage from './pages/addpages/AddMoviepage'
-import AddRefreshmentpage from './pages/addpages/AddRefreshmentpage'
-import AddShowpage from './pages/addpages/AddShowpage'
-import UpdateEmployeepage from './pages/updatepages/UpdateEmployeepage'
-import UpdateMoviepage from './pages/updatepages/UpdateMoviepage'
-import UpdateRefreshmentpage from './pages/updatepages/UpdateRefreshmentpage'
-import UpdateShowpage from './pages/updatepages/UpdateShowpage'
+import HomePage from './pages/HomePage'
+import RefreshmentListPage from './pages/RefreshmentListPage'
 
 const App = () => {
   return (
@@ -25,24 +12,8 @@ const App = () => {
       <Header />
       <main className="py-3">
         <Container>
-          <Route path="/" component={Homepage} exact />
-          <Route path="/refreshments" component={Refreshmentpage} />
-          <Route path="/employees" component={Employeespage} />
-          <Route path="/movies" component={Moviespage} />
-          <Route path="/shows" component={Showspage} />
-          <Route path="/reports" component={Reportspage} />
-          <Route path="/utilities" component={Utilitiespage} />
-          <Route path="/add/employees" component={AddEmployeepage} />
-          <Route path="/add/movies" component={AddMoviepage} />
-          <Route path="/add/refreshments" component={AddRefreshmentpage} />
-          <Route path="/add/shows" component={AddShowpage} />
-          <Route path="/update/employees/:id" component={UpdateEmployeepage} />
-          <Route path="/update/movies/:id" component={UpdateMoviepage} />
-          <Route
-            path="/update/refreshments/:id"
-            component={UpdateRefreshmentpage}
-          />
-          <Route path="/update/shows/:id" component={UpdateShowpage} />
+          <Route path="/" component={HomePage} exact />
+          <Route path="/refreshments" component={RefreshmentListPage} />
         </Container>
       </main>
       <Footer />

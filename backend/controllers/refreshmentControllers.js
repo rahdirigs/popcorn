@@ -57,7 +57,10 @@ const addRefreshment = asyncHandler(async (req, res) => {
       }
     )
     res.status(201).json({
-      message: 'Refreshment created...',
+      name: refreshment.name,
+      image: refreshment.image,
+      price: refreshment.price,
+      countInStock: refreshment.countInStock,
     })
   } else {
     res.status(400)
@@ -91,7 +94,12 @@ const updateRefreshment = asyncHandler(async (req, res) => {
         }
       }
     )
-    res.json({ message: 'Refresment updated' })
+    res.json({
+      name: updatedRefreshment.name,
+      image: updatedRefreshment.image,
+      price: updatedRefreshment.price,
+      countInStock: updatedRefreshment.countInStock,
+    })
   } else {
     res.status(404)
     throw new Error('Refreshment not found')
