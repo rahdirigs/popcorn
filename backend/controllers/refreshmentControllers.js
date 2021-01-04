@@ -15,7 +15,7 @@ const getRefreshments = asyncHandler(async (req, res) => {
 //@route GET /api/refreshments/:id
 //@access public
 const getRefreshmentById = asyncHandler(async (req, res) => {
-  const refreshment = await Movie.findById(req.params.id)
+  const refreshment = await Refreshment.findById(req.params.id)
 
   if (refreshment) {
     res.json(refreshment)

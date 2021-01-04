@@ -47,10 +47,13 @@ export const refreshmentDetailsReducer = (
   }
 }
 
-export const refreshmentUpdateReducer = (state = {}, action) => {
+export const refreshmentUpdateReducer = (
+  state = { refreshmentInfo: {} },
+  action
+) => {
   switch (action.type) {
     case REFRESHMENT_UPDATE_REQUEST:
-      return { loading: true }
+      return { loading: true, ...state }
     case REFRESHMENT_UPDATE_SUCCESS:
       return { loading: false, success: true, refreshmentInfo: action.payload }
     case REFRESHMENT_UPDATE_FAIL:

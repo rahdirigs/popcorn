@@ -88,13 +88,16 @@ export const addRefreshment = (
   }
 }
 
-export const updateRefreshment = (
-  id,
-  price,
-  countInStock
-) => async dispatch => {
+export const updateRefreshment = (price, countInStock) => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({ type: REFRESHMENT_UPDATE_REQUEST })
+
+    const {
+      refreshmentDetails: { refreshment },
+    } = getState()
 
     const config = {
       headers: {
@@ -103,7 +106,7 @@ export const updateRefreshment = (
     }
 
     const { data } = await axios.put(
-      `/api/refreshments/${id}`,
+      `/api/refreshments/${refreshment._id}`,
       {
         price: price,
         countInStock: countInStock,
