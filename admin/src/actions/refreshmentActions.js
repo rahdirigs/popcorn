@@ -53,7 +53,7 @@ export const listRefreshmentDetails = id => async dispatch => {
 
 export const addRefreshment = (
   name,
-  image,
+  url,
   price,
   countInStock
 ) => async dispatch => {
@@ -70,7 +70,7 @@ export const addRefreshment = (
       '/api/refreshments/',
       {
         name: name,
-        image: image,
+        image: url,
         price: price,
         countInStock: countInStock,
       },

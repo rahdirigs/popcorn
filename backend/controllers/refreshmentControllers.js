@@ -57,6 +57,7 @@ const addRefreshment = asyncHandler(async (req, res) => {
       }
     )
     res.status(201).json({
+      _id: refreshment._id,
       name: refreshment.name,
       image: refreshment.image,
       price: refreshment.price,

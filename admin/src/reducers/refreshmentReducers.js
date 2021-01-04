@@ -81,7 +81,7 @@ export const refreshmentAddReducer = (
     case REFRESHMENT_ADD_REQUEST:
       return { loading: true, ...state }
     case REFRESHMENT_ADD_SUCCESS:
-      return { loading: false, refreshmentInfo: action.payload }
+      return { loading: false, success: true, refreshmentInfo: action.payload }
     case REFRESHMENT_ADD_FAIL:
       return { loading: false, error: action.payload }
     default:
