@@ -136,7 +136,7 @@ export const movieStartScreening = id => async dispatch => {
       },
     }
 
-    const { data } = await axios.put(
+    await axios.put(
       `/api/admin/screen/${id}`,
       {
         isScreening: 1,
@@ -166,7 +166,7 @@ export const movieStopScreening = id => async dispatch => {
       },
     }
 
-    const { data } = await axios.put(
+    await axios.put(
       `/api/admin/screen/${id}`,
       {
         isScreening: 0,
