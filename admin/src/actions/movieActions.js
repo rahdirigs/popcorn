@@ -94,7 +94,7 @@ export const listMovieDetails = id => async dispatch => {
   }
 }
 
-export const movieUpdate = costs => async (dispatch, getState) => {
+export const updateMovie = costs => async (dispatch, getState) => {
   try {
     dispatch({ type: MOVIE_UPDATE_REQUEST })
 
@@ -136,7 +136,7 @@ export const movieStartScreening = id => async dispatch => {
       },
     }
 
-    await axios.put(
+    const { data } = await axios.put(
       `/api/admin/screen/${id}`,
       {
         isScreening: 1,
@@ -166,7 +166,7 @@ export const movieStopScreening = id => async dispatch => {
       },
     }
 
-    await axios.put(
+    const { data } = await axios.put(
       `/api/admin/screen/${id}`,
       {
         isScreening: 0,
@@ -194,6 +194,7 @@ export const addMovie = (
   genres,
   released,
   director,
+  isAdult,
   writer,
   cast,
   desc
@@ -220,6 +221,7 @@ export const addMovie = (
         writer: writer,
         cast: cast,
         desc: desc,
+        isAdult: isAdult,
       },
       config
     )

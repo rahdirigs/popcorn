@@ -30,6 +30,7 @@ const addMovie = asyncHandler(async (req, res) => {
     writer,
     cast,
     desc,
+    isAdult,
   } = req.body
 
   sql_db.query(
@@ -43,7 +44,8 @@ const addMovie = asyncHandler(async (req, res) => {
     }
   )
 
-  let refId
+  let ref
+
   sql_db.query(
     'INSERT INTO movies (name, year) VALUES (?, ?)',
     [name, year],
@@ -52,31 +54,35 @@ const addMovie = asyncHandler(async (req, res) => {
         res.status(500)
         throw new Error('Insert failed')
       } else {
-        refId = result.insertIds
+        ref = result.insertId
+
+        const addToMongo = async () => {
+          const movie = await Movie.create({
+            refId: Number(ref),
+            name,
+            image,
+            year,
+            runtime,
+            genres,
+            released,
+            director,
+            writer,
+            cast,
+            desc,
+            isAdult,
+          })
+          if (movie) {
+            res.json(movie)
+          } else {
+            res.status(500)
+            throw new Error('Creation failed')
+          }
+        }
+
+        addToMongo()
       }
     }
   )
-
-  const movie = await Movie.create({
-    refId,
-    name,
-    image,
-    year,
-    runtime,
-    genres,
-    released,
-    director,
-    writer,
-    cast,
-    desc,
-  })
-
-  if (movie) {
-    res.json(movie)
-  } else {
-    res.status(500)
-    throw new Error('Creation failed')
-  }
 })
 
 //@desc Fetch all movies
@@ -128,6 +134,7 @@ const updateAmountSpent = asyncHandler(async (req, res) => {
         console.error(err)
       } else {
         console.log(result)
+        res.json(result)
       }
     }
   )

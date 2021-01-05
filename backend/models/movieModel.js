@@ -17,7 +17,10 @@ const reviewSchema = mongoose.Schema(
 
 const movieSchema = mongoose.Schema(
   {
-    refId: Number,
+    refId: {
+      type: Number,
+      required: true,
+    },
     name: String,
     image: String,
     year: String,

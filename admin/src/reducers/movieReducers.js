@@ -124,7 +124,7 @@ export const movieAddReducer = (state = { movieInfo: {} }, action) => {
     case MOVIE_ADD_REQUEST:
       return { loading: true, ...state }
     case MOVIE_ADD_SUCCESS:
-      return { loading: false, success: true, refreshmentInfo: action.payload }
+      return { loading: false, success: true, movieInfo: action.payload }
     case MOVIE_ADD_FAIL:
       return { loading: false, error: action.payload }
     default:
