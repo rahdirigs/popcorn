@@ -56,7 +56,7 @@ const getPastEmployees = asyncHandler(async (req, res) => {
 //@route PUT /api/employees/work/:id
 //@access public
 const toggleWorkingStatus = asyncHandler(async (req, res) => {
-  const { isWorking } = req.body.isWorking
+  const { isWorking } = req.body
 
   const employee = await Employee.findOne({ refId: req.params.id })
 

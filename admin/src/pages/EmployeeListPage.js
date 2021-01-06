@@ -1,6 +1,9 @@
 import React from 'react'
 import { Col, Nav, Row, Tab } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import AllEmployeesPane from '../panes/AllEmployeesPane'
+import CurrentEmployeesPane from '../panes/CurrentEmployeesPane'
+import PastEmployeesPane from '../panes/PastEmployeesPane'
 
 const EmployeeListPage = () => {
   return (
@@ -27,9 +30,15 @@ const EmployeeListPage = () => {
           </Col>
           <Col md={9}>
             <Tab.Content>
-              <Tab.Pane eventKey="all"></Tab.Pane>
-              <Tab.Pane eventKey="current"></Tab.Pane>
-              <Tab.Pane eventKey="past"></Tab.Pane>
+              <Tab.Pane eventKey="all">
+                <AllEmployeesPane />
+              </Tab.Pane>
+              <Tab.Pane eventKey="current">
+                <CurrentEmployeesPane />
+              </Tab.Pane>
+              <Tab.Pane eventKey="past">
+                <PastEmployeesPane />
+              </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>

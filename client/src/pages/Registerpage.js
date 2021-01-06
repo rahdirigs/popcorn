@@ -157,6 +157,7 @@ const Registerpage = ({ location, history }) => {
     e.preventDefault()
 
     if (isFormValid()) {
+      setMessage(null)
       const dateOfBirth = getFormattedDate(initialDate)
       dispatch(
         register(
