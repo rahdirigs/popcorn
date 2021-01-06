@@ -26,6 +26,15 @@ import {
   employeeStartWorkReducer,
   employeeStopWorkReducer,
 } from './reducers/employeeReducers'
+import {
+  showCreateReducer,
+  showDetailsReducer,
+  showFutureListReducer,
+  showListReducer,
+  showMarkReducer,
+  showPastListReducer,
+  showUpdateReducer,
+} from './reducers/showReducers'
 
 const reducer = combineReducers({
   refreshmentList: refreshmentListReducer,
@@ -47,6 +56,13 @@ const reducer = combineReducers({
   employeeStartWork: employeeStartWorkReducer,
   employeeStopWork: employeeStopWorkReducer,
   employeeAdd: employeeAddReducer,
+  showCreate: showCreateReducer,
+  showDetails: showDetailsReducer,
+  showFutureList: showFutureListReducer,
+  showList: showListReducer,
+  showMark: showMarkReducer,
+  showPastList: showPastListReducer,
+  showUpdate: showUpdateReducer,
 })
 
 const initialState = {}

@@ -9,6 +9,14 @@ const showSchema = mongoose.Schema(
     },
     date: String,
     ticketCount: Number,
+    ticketSold: {
+      type: Number,
+      default: 0,
+    },
+    earned: {
+      type: Number,
+      default: 0,
+    },
     ticketPrice: Number,
     done: {
       type: Boolean,
