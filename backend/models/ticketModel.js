@@ -24,11 +24,16 @@ const ticketSchema = mongoose.Schema(
     },
     refreshments: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Refreshment',
+        item: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Refreshment',
+        },
+        qty: {
+          type: Number,
+          default: 0,
+        },
       },
     ],
-    refreshmentCount: Number,
     refreshmentCost: {
       type: Number,
       default: 0,
