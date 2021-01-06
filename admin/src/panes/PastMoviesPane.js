@@ -58,6 +58,7 @@ const PastMoviesPane = () => {
                 <Button
                   variant="success"
                   onClick={() => screeningStart(movie.id)}
+                  className="btn-sm"
                 >
                   <i className="fas fa-tv"></i>
                 </Button>

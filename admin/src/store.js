@@ -18,6 +18,14 @@ import {
   movieStopScreenReducer,
   movieUpdateReducer,
 } from './reducers/movieReducers'
+import {
+  employeeAddReducer,
+  employeeCurrentListReducer,
+  employeeListReducer,
+  employeePastListReducer,
+  employeeStartWorkReducer,
+  employeeStopWorkReducer,
+} from './reducers/employeeReducers'
 
 const reducer = combineReducers({
   refreshmentList: refreshmentListReducer,
@@ -33,6 +41,12 @@ const reducer = combineReducers({
   movieStartScreen: movieStartScreenReducer,
   movieStopScreen: movieStopScreenReducer,
   movieAdd: movieAddReducer,
+  employeeList: employeeListReducer,
+  employeeCurrentList: employeeCurrentListReducer,
+  employeePastList: employeePastListReducer,
+  employeeStartWork: employeeStartWorkReducer,
+  employeeStopWork: employeeStopWorkReducer,
+  employeeAdd: employeeAddReducer,
 })
 
 const initialState = {}

@@ -17,11 +17,14 @@ const reviewSchema = mongoose.Schema(
 
 const employeeSchema = mongoose.Schema(
   {
+    refId: {
+      type: Number,
+      required: true,
+    },
     firstName: String,
     lastName: String,
     email: {
       type: String,
-      required: true,
       unique: true,
     },
     dateOfBirth: String,
@@ -39,6 +42,10 @@ const employeeSchema = mongoose.Schema(
     numReviews: {
       type: Number,
       default: 0,
+    },
+    isWorking: {
+      type: Boolean,
+      default: true,
     },
   },
   {

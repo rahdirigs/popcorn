@@ -67,6 +67,7 @@ const CurrentMoviesPane = () => {
                 <Button
                   variant="danger"
                   onClick={() => screeningStop(movie.id)}
+                  className="btn-sm"
                 >
                   <i className="fas fa-tv"></i>
                 </Button>
