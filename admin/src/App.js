@@ -10,6 +10,8 @@ import RefreshmentEditPage from './pages/RefreshmentEditPage'
 import MovieListPage from './pages/MovieListPage'
 import MovieAddPage from './pages/MovieAddPage'
 import MovieEditPage from './pages/MovieEditPage'
+import EmployeeListPage from './pages/EmployeeListPage'
+import EmployeeAddPage from './pages/EmployeeAddPage'
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
           <Route path="/movies" component={MovieListPage} />
           <Route path="/add/movies" component={MovieAddPage} />
           <Route path="/edit/movies/:id" component={MovieEditPage} />
+          <Route path="/employees" component={EmployeeListPage} />
+          <Route path="/add/employees" component={EmployeeAddPage} />
         </Container>
       </main>
       <Footer />
