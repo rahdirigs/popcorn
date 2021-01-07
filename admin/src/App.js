@@ -12,6 +12,9 @@ import MovieAddPage from './pages/MovieAddPage'
 import MovieEditPage from './pages/MovieEditPage'
 import EmployeeListPage from './pages/EmployeeListPage'
 import EmployeeAddPage from './pages/EmployeeAddPage'
+import ShowListPage from './pages/ShowListPage'
+import ShowEditPage from './pages/ShowEditPage'
+import ShowAddPage from './pages/ShowAddPage'
 
 const App = () => {
   return (
@@ -31,6 +34,9 @@ const App = () => {
           <Route path="/edit/movies/:id" component={MovieEditPage} />
           <Route path="/employees" component={EmployeeListPage} />
           <Route path="/add/employees" component={EmployeeAddPage} />
+          <Route path="/shows" component={ShowListPage} />
+          <Route path="/edit/shows/:id" component={ShowEditPage} />
+          <Route path="/add/shows" component={ShowAddPage} />
         </Container>
       </main>
       <Footer />

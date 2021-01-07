@@ -24,7 +24,7 @@ const EmployeeListPage = () => {
                 <Nav.Link eventKey="current">Current Employees</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="past">Past Employees</Nav.Link>
+                <Nav.Link eventKey="past">Former Employees</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>

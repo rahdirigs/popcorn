@@ -25,13 +25,13 @@ const AllEmployeesPane = () => {
     <Table striped bordered responsive hover className="table-md my-3">
       <thead>
         <tr>
-          <td>ID</td>
-          <td>Name</td>
-          <td>Email</td>
-          <td>Date of Birth</td>
-          <td>Contact</td>
-          <td>Ratings</td>
-          <td>Reviews</td>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Date of Birth</th>
+          <th>Contact</th>
+          <th>Ratings</th>
+          <th>Reviews</th>
         </tr>
       </thead>
       <tbody>
@@ -39,7 +39,7 @@ const AllEmployeesPane = () => {
           employees.map(employee => (
             <tr key={employee.id}>
               <td>{employee.id}</td>
-              <td>{[employee.firstName, employee.lastname].join(' ')}</td>
+              <td>{[employee.firstName, employee.lastName].join(' ')}</td>
               <td>{employee.email}</td>
               <td>{employee.dateOfBirth}</td>
               <td>{employee.contact}</td>

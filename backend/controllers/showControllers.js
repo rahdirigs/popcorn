@@ -1,5 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import Show from '../models/showModel.js'
+import Movie from '../models/movieModel.js'
+import sql_db from '../config/sql_db.js'
 
 //@desc Fetch all shows
 //@route GET /api/shows
@@ -32,6 +34,23 @@ const markShow = asyncHandler(async (req, res) => {
   const show = await Show.findById(req.params.id)
 
   if (show) {
+    const id = show.movie.refId
+    const mov = await Movie.findOne({ refId: id })
+
+    mov.showCount = mov.showCount - 1
+    const updatedMov = await mov.save()
+
+    sql_db.query(
+      'UPDATE movies SET showsScreened = showsScreened + 1, showsScheduled = showsScheduled - 1 WHERE id = ?',
+      [id],
+      (err, result) => {
+        if (err) {
+          console.error(err)
+        } else {
+          console.log(result)
+        }
+      }
+    )
     show.done = true
     const markedShow = await show.save()
     res.json(markedShow)
@@ -79,6 +98,23 @@ const updateShowDetails = asyncHandler(async (req, res) => {
 const createShow = asyncHandler(async (req, res) => {
   const { movie, date, ticketCount, ticketPrice } = req.body
 
+  const showMovie = await Movie.findOne({ refId: movie.refId })
+
+  showMovie.showCount = showMovie.showCount + 1
+  const updatedShowMovie = await showMovie.save()
+
+  sql_db.query(
+    'UPDATE movies SET showsScheduled = showsScheduled + 1 WHERE id = ?',
+    [movie.refId],
+    (err, result) => {
+      if (err) {
+        console.err(error)
+      } else {
+        console.log(result)
+      }
+    }
+  )
+
   const show = await Show.create({
     movie,
     date,
@@ -94,6 +130,14 @@ const createShow = asyncHandler(async (req, res) => {
   }
 })
 
+//@desc Get current movies
+//@route GET /api/shows/movies
+//@access public
+const getCurrentMovies = asyncHandler(async (req, res) => {
+  const currentMovies = await Movie.find({ isScreening: true })
+  res.json(currentMovies)
+})
+
 export {
   listAllShows,
   listFutureShows,
@@ -102,4 +146,5 @@ export {
   listShowDetails,
   updateShowDetails,
   createShow,
+  getCurrentMovies,
 }

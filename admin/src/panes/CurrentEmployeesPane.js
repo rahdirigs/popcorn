@@ -38,14 +38,14 @@ const CurrentEmployeesPane = () => {
     <Table striped bordered responsive hover className="table-md my-3">
       <thead>
         <tr>
-          <td>ID</td>
-          <td>Name</td>
-          <td>Email</td>
-          <td>Date of Birth</td>
-          <td>Contact</td>
-          <td>Ratings</td>
-          <td>Reviews</td>
-          <td></td>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Date of Birth</th>
+          <th>Contact</th>
+          <th>Ratings</th>
+          <th>Reviews</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>

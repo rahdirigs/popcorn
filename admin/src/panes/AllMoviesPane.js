@@ -25,13 +25,13 @@ const AllMoviesPane = () => {
     <Table striped bordered responsive hover className="table-md my-3">
       <thead>
         <tr>
-          <td>ID</td>
-          <td>Name</td>
-          <td>Year</td>
-          <td>Past Shows</td>
-          <td>Future Shows</td>
-          <td>Spent</td>
-          <td>Earnings</td>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Year</th>
+          <th>Past Shows</th>
+          <th>Future Shows</th>
+          <th>Spent</th>
+          <th>Earnings</th>
         </tr>
       </thead>
       <tbody>

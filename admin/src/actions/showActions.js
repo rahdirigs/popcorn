@@ -9,6 +9,9 @@ import {
   SHOW_FUTURE_LIST_FAIL,
   SHOW_FUTURE_LIST_REQUEST,
   SHOW_FUTURE_LIST_SUCCESS,
+  SHOW_LIST_CURRENT_MOVIES_FAIL,
+  SHOW_LIST_CURRENT_MOVIES_REQUEST,
+  SHOW_LIST_CURRENT_MOVIES_SUCCESS,
   SHOW_LIST_FAIL,
   SHOW_LIST_REQUEST,
   SHOW_LIST_SUCCESS,
@@ -177,6 +180,23 @@ export const createShow = (
   } catch (error) {
     dispatch({
       type: SHOW_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const listCurrentMoviesForShows = () => async dispatch => {
+  try {
+    dispatch({ type: SHOW_LIST_CURRENT_MOVIES_REQUEST })
+
+    const { data } = await axios.get('/api/shows/movies')
+    dispatch({ type: SHOW_LIST_CURRENT_MOVIES_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: SHOW_LIST_CURRENT_MOVIES_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

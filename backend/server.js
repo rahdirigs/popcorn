@@ -23,7 +23,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/refreshments', refreshmentRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/employees', employeeRoutes)
-app.use('/shows', showRoutes)
+app.use('/api/shows', showRoutes)
 
 app.use(notFound)
 app.use(errorHandler)

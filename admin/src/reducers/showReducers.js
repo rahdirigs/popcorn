@@ -8,6 +8,9 @@ import {
   SHOW_FUTURE_LIST_FAIL,
   SHOW_FUTURE_LIST_REQUEST,
   SHOW_FUTURE_LIST_SUCCESS,
+  SHOW_LIST_CURRENT_MOVIES_FAIL,
+  SHOW_LIST_CURRENT_MOVIES_REQUEST,
+  SHOW_LIST_CURRENT_MOVIES_SUCCESS,
   SHOW_LIST_FAIL,
   SHOW_LIST_REQUEST,
   SHOW_LIST_SUCCESS,
@@ -107,6 +110,22 @@ export const showCreateReducer = (state = { showInfo: {} }, action) => {
     case SHOW_CREATE_SUCCESS:
       return { loading: false, showInfo: action.payload }
     case SHOW_CREATE_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const showListCurrentMoviesReducer = (
+  state = { currentMovies: [] },
+  action
+) => {
+  switch (action.type) {
+    case SHOW_LIST_CURRENT_MOVIES_REQUEST:
+      return { loading: true, currentMovies: [] }
+    case SHOW_LIST_CURRENT_MOVIES_SUCCESS:
+      return { loading: false, success: true, currentMovies: action.payload }
+    case SHOW_LIST_CURRENT_MOVIES_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

@@ -30,6 +30,7 @@ import {
   showCreateReducer,
   showDetailsReducer,
   showFutureListReducer,
+  showListCurrentMoviesReducer,
   showListReducer,
   showMarkReducer,
   showPastListReducer,
@@ -63,6 +64,7 @@ const reducer = combineReducers({
   showMark: showMarkReducer,
   showPastList: showPastListReducer,
   showUpdate: showUpdateReducer,
+  showListCurrentMovies: showListCurrentMoviesReducer,
 })
 
 const initialState = {}

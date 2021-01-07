@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 const ticketSchema = mongoose.Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types,
       ref: 'User',
     },
     show: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types,
       ref: 'Show',
     },
     seatCount: {
@@ -25,7 +25,7 @@ const ticketSchema = mongoose.Schema(
     refreshments: [
       {
         item: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: mongoose.Schema.Types,
           ref: 'Refreshment',
         },
         qty: {
@@ -39,7 +39,7 @@ const ticketSchema = mongoose.Schema(
       default: 0,
     },
     employee: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types,
       ref: 'Employee',
     },
   },

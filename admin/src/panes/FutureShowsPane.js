@@ -1,29 +1,34 @@
 import React, { useEffect } from 'react'
-import { Table } from 'react-bootstrap'
+import { Button, Table } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { listPastShows } from '../actions/showActions'
+import { listFutureShows, markShowAsDone } from '../actions/showActions'
 
 const AllShowsPane = () => {
   const dispatch = useDispatch()
 
-  const showPastList = useSelector(state => state.showPastList)
-  const { loading, error, pastShows } = showPastList
+  const showFutureList = useSelector(state => state.showFutureList)
+  const { loading, error, futureShows } = showFutureList
 
   const showMark = useSelector(state => state.showMark)
   const { success } = showMark
 
   useEffect(() => {
-    dispatch(listPastShows())
+    dispatch(listFutureShows())
   }, [dispatch, success])
+
+  const markShowHandler = id => {
+    dispatch(markShowAsDone(id))
+  }
 
   return loading ? (
     <Loader />
   ) : error ? (
     <Message>{error}</Message>
-  ) : pastShows.length === 0 ? (
-    <Message variant="info">No shows screened in the past</Message>
+  ) : futureShows.length === 0 ? (
+    <Message variant="info">No shows scheduled for recent future</Message>
   ) : (
     <Table striped bordered responsive hover className="table-md my-3">
       <thead>
@@ -34,11 +39,13 @@ const AllShowsPane = () => {
           <th>Tickets sold</th>
           <th>Ticket price</th>
           <th>Earnings</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        {pastShows.length > 0 ? (
-          pastShows.map(show => (
+        {futureShows.length > 0 ? (
+          futureShows.map(show => (
             <tr key={show._id}>
               <td>{show.movie.name}</td>
               <td>{show.date}</td>
@@ -46,6 +53,20 @@ const AllShowsPane = () => {
               <td>{show.ticketSold}</td>
               <td>{show.ticketPrice}</td>
               <td>{show.earned}</td>
+              <td>
+                <LinkContainer to={`/edit/shows/${show._id}`}>
+                  <i className="fas fa-edit"></i>
+                </LinkContainer>
+              </td>
+              <td>
+                <Button
+                  variant="success"
+                  className="btn-sm"
+                  onClick={() => markShowHandler(show._id)}
+                >
+                  <i className="fas fa-check"></i>
+                </Button>
+              </td>
             </tr>
           ))
         ) : (
