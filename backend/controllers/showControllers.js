@@ -81,8 +81,9 @@ const updateShowDetails = asyncHandler(async (req, res) => {
 
   const show = await Show.findById(req.params.id)
   if (show) {
-    show.ticketCount = tickets
+    show.ticketCount += tickets
     show.ticketPrice = price
+    show.ticketLeft += tickets
 
     const updatedShow = await show.save()
     res.json(updatedShow)
@@ -120,6 +121,7 @@ const createShow = asyncHandler(async (req, res) => {
     date,
     ticketCount,
     ticketPrice,
+    ticketLeft: ticketCount,
   })
 
   if (show) {

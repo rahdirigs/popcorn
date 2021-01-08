@@ -20,8 +20,10 @@ const userSchema = mongoose.Schema(
     pincode: String,
     watched: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Show',
+        show: {
+          type: mongoose.Schema.Types,
+          ref: 'Show',
+        },
       },
     ],
   },

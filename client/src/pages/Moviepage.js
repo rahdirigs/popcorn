@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+//import sentiment from 'sentiment'
 import { Link } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
@@ -13,6 +14,9 @@ const Moviepage = ({ match }) => {
 
   const movieDetails = useSelector(state => state.movieDetails)
   const { loading, error, movie } = movieDetails
+
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
 
   useEffect(() => {
     dispatch(listMovieDetails(match.params.id))
@@ -46,11 +50,13 @@ const Moviepage = ({ match }) => {
                 <strong>Cast: </strong>
                 <br />
                 {movie.cast &&
-                  movie.cast.map((actor, i) => (
-                    <>
-                      <>{actor}</> {i !== movie.cast.length - 1 && <>, </>}
-                    </>
-                  ))}
+                  movie.cast.map((actor, i) =>
+                    i > 0 ? (
+                      <span key={i}>, {actor}</span>
+                    ) : (
+                      <span key={i}>{actor}</span>
+                    )
+                  )}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Director: </strong>
@@ -80,7 +86,13 @@ const Moviepage = ({ match }) => {
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <LinkContainer to={`/movie/${movie.refId}/shows`}>
+                  <LinkContainer
+                    to={
+                      userInfo
+                        ? `/movie/${movie.refId}/shows`
+                        : `/login?redirect=movie/${movie.refId}/shows`
+                    }
+                  >
                     <Button
                       className="btn-block"
                       variant="primary"

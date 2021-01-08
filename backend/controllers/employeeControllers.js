@@ -34,6 +34,14 @@ const getCurrentEmployees = asyncHandler(async (req, res) => {
   )
 })
 
+//@desc Fetch current employees from MongoDB
+//@route GET /api/employees/mongo/current
+//@access public
+const getCurrentEmployeesFromMongo = asyncHandler(async (req, res) => {
+  const currentEmployees = await Employee.find({ isWorking: true })
+  res.json(currentEmployees)
+})
+
 //@desc Fetch past employees
 //@route GET /api/employees/past
 //@access public
@@ -158,4 +166,5 @@ export {
   getPastEmployees,
   toggleWorkingStatus,
   registerEmployee,
+  getCurrentEmployeesFromMongo,
 }

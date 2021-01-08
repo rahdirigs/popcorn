@@ -13,6 +13,10 @@ const showSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    ticketLeft: {
+      type: Number,
+      default: 0,
+    },
     earned: {
       type: Number,
       default: 0,

@@ -8,6 +8,13 @@ import {
   userRegisterReducer,
   userUpdateProfileReducer,
 } from './reducers/userReducers'
+import {
+  showDetailsReducer,
+  showFutureListReducer,
+} from './reducers/showReducers'
+import { refreshmentListReducer } from './reducers/refreshmentReducers'
+import { ticketBookReducer } from './reducers/bookingReducers'
+import { employeeCurrentListReducer } from './reducers/employeeReducers'
 
 const reducer = combineReducers({
   movieList: movieListReducer,
@@ -16,6 +23,11 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  showFutureList: showFutureListReducer,
+  showDetails: showDetailsReducer,
+  refreshmentList: refreshmentListReducer,
+  ticketBook: ticketBookReducer,
+  employeeCurrentList: employeeCurrentListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

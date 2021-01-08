@@ -39,7 +39,7 @@ const RefreshmentEditPage = ({ match }) => {
   }
 
   const submitHandler = () => {
-    const tickets = parseInt(newTickets, 10) + parseInt(oldTickets, 10)
+    const tickets = parseInt(newTickets, 10)
     if (isFormValid()) {
       setMessage(null)
       dispatch(updateShow(tickets, price))

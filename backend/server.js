@@ -9,6 +9,7 @@ import refreshmentRoutes from './routes/refreshmentRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import employeeRoutes from './routes/employeeRoutes.js'
 import showRoutes from './routes/showRoutes.js'
+import ticketRoutes from './routes/ticketRoutes.js'
 
 dotenv.config()
 
@@ -24,6 +25,7 @@ app.use('/api/refreshments', refreshmentRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/employees', employeeRoutes)
 app.use('/api/shows', showRoutes)
+app.use('/api/tickets', ticketRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
