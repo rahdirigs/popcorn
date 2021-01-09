@@ -39,8 +39,6 @@ const bookTicket = asyncHandler(async (req, res) => {
       (err, result) => {
         if (err) {
           console.error(err)
-        } else {
-          console.log(result)
         }
       }
     )
@@ -51,8 +49,6 @@ const bookTicket = asyncHandler(async (req, res) => {
       (err, result) => {
         if (err) {
           console.error(err)
-        } else {
-          console.log(result)
         }
       }
     )
