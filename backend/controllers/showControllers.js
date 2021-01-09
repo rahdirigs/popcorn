@@ -11,6 +11,16 @@ const listAllShows = asyncHandler(async (req, res) => {
   res.json(shows)
 })
 
+//@desc Fetch done shows
+//@route GET /api/shows/done
+//@access public
+const listDoneShows = asyncHandler(async (req, res) => {
+  const shows = await Show.find({ done: true })
+  const showIds = []
+  shows.map(show => showIds.push(show._id))
+  res.json(showIds)
+})
+
 //@desc Fetch future shows
 //@route GET /api/shows/future
 //@access public
@@ -46,11 +56,20 @@ const markShow = asyncHandler(async (req, res) => {
       (err, result) => {
         if (err) {
           console.error(err)
-        } else {
-          console.log(result)
         }
       }
     )
+
+    sql_db.query(
+      'INSERT INTO doneshows (showId) VALUES (?)',
+      [String(show._id)],
+      (err, result) => {
+        if (err) {
+          console.error(err)
+        }
+      }
+    )
+
     show.done = true
     const markedShow = await show.save()
     res.json(markedShow)
@@ -149,4 +168,5 @@ export {
   updateShowDetails,
   createShow,
   getCurrentMovies,
+  listDoneShows,
 }

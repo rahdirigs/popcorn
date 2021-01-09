@@ -3,6 +3,7 @@ import {
   createShow,
   getCurrentMovies,
   listAllShows,
+  listDoneShows,
   listFutureShows,
   listPastShows,
   listShowDetails,
@@ -20,6 +21,7 @@ router.route('/movies').get(getCurrentMovies)
 router.route('/future').get(listFutureShows)
 router.route('/past').get(listPastShows)
 router.route('/mark/:id').put(markShow)
+router.route('/done').get(listDoneShows)
 router
   .route('/:id')
   .put(updateShowDetails)

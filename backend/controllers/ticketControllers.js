@@ -54,7 +54,7 @@ const bookTicket = asyncHandler(async (req, res) => {
     )
 
     const userDB = await User.findOne({ email: user.email })
-    userDB.watched.push({ show: show })
+    userDB.watched.push(show.movie)
     await userDB.save()
 
     for (let i = 0; i < refreshments.length; i++) {
@@ -86,4 +86,23 @@ const bookTicket = asyncHandler(async (req, res) => {
   }
 })
 
-export { bookTicket }
+//@desc Get Bookings
+//@route GET /api/tickets
+//@access private
+const getBookings = asyncHandler(async (req, res) => {
+  const user = req.user
+  //console.log(user)
+  const allTickets = await Ticket.find()
+
+  const tickets = allTickets.filter(ticket => ticket.user.email === user.email)
+
+  if (tickets) {
+    //console.log(tickets)
+    res.json(tickets)
+  } else {
+    res.status(404)
+    throw new Error('Not found...')
+  }
+})
+
+export { bookTicket, getBookings }

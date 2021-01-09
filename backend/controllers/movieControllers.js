@@ -25,4 +25,41 @@ const getMovieById = asyncHandler(async (req, res) => {
   }
 })
 
-export { getMovies, getMovieById }
+//@desc Create a new review
+//@route GET /api/movies/:id/reviews
+//@access private
+const createReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body
+
+  const movie = await Movie.findOne({ refId: req.params.id })
+
+  if (movie) {
+    const reviewed = movie.reviews(
+      r => r.user.toString() === req.user._id.toString()
+    )
+    if (reviewed) {
+      res.status(400)
+      throw new Error('Already reviewed')
+    }
+
+    const review = {
+      user: req.user._id,
+      name: req.user.name,
+      rating: Number(rating),
+      comment: comment,
+    }
+
+    movie.reviews.push(review)
+    movie.numReviews = movie.reviews.length
+    movie.ratings =
+      movie.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      movie.numReviews
+
+    await movie.save()
+    res.status(201).json({ message: 'Review added' })
+  } else {
+    throw new Error('Movie not found')
+  }
+})
+
+export { getMovies, getMovieById, createReview }

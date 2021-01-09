@@ -10,10 +10,14 @@ import {
 } from './reducers/userReducers'
 import {
   showDetailsReducer,
+  showDoneReducer,
   showFutureListReducer,
 } from './reducers/showReducers'
 import { refreshmentListReducer } from './reducers/refreshmentReducers'
-import { ticketBookReducer } from './reducers/bookingReducers'
+import {
+  getTicketsReducer,
+  ticketBookReducer,
+} from './reducers/bookingReducers'
 import { employeeCurrentListReducer } from './reducers/employeeReducers'
 
 const reducer = combineReducers({
@@ -28,6 +32,8 @@ const reducer = combineReducers({
   refreshmentList: refreshmentListReducer,
   ticketBook: ticketBookReducer,
   employeeCurrentList: employeeCurrentListReducer,
+  getTickets: getTicketsReducer,
+  showDone: showDoneReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

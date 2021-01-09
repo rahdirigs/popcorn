@@ -3,6 +3,9 @@ import {
   SHOW_DETAILS_FAIL,
   SHOW_DETAILS_REQUEST,
   SHOW_DETAILS_SUCCESS,
+  SHOW_DONE_FAIL,
+  SHOW_DONE_REQUEST,
+  SHOW_DONE_SUCCESS,
   SHOW_FUTURE_LIST_FAIL,
   SHOW_FUTURE_LIST_REQUEST,
   SHOW_FUTURE_LIST_SUCCESS,
@@ -34,6 +37,23 @@ export const listShowDetails = id => async dispatch => {
   } catch (error) {
     dispatch({
       type: SHOW_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const listDoneShows = () => async dispatch => {
+  try {
+    dispatch({ type: SHOW_DONE_REQUEST })
+
+    const { data } = await axios.get('/api/shows/done')
+    dispatch({ type: SHOW_DONE_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: SHOW_DONE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

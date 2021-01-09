@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Movie from '../components/Movie'
 import { listMovies } from '../actions/movieActions'
+import { listDoneShows } from '../actions/showActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -14,6 +15,7 @@ const Homepage = () => {
 
   useEffect(() => {
     dispatch(listMovies())
+    dispatch(listDoneShows())
   }, [dispatch])
 
   return (
