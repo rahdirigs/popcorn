@@ -1,7 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { movieDetailsReducer, movieListReducer } from './reducers/movieReducers'
+import {
+  movieCreateReviewReducer,
+  movieDetailsReducer,
+  movieListReducer,
+} from './reducers/movieReducers'
 import {
   userDetailsReducer,
   userLoginReducer,
@@ -23,6 +27,7 @@ import { employeeCurrentListReducer } from './reducers/employeeReducers'
 const reducer = combineReducers({
   movieList: movieListReducer,
   movieDetails: movieDetailsReducer,
+  movieCreateReview: movieCreateReviewReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,

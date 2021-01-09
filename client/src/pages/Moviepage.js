@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react'
-//import sentiment from 'sentiment'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
+import { Button, Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap'
 import Rating from '../components/Rating'
-import { listMovieDetails } from '../actions/movieActions'
+import { createMovieReview, listMovieDetails } from '../actions/movieActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import {} from '../actions/movieActions'
+import { MOVIE_CREATE_REVIEW_RESET } from '../constants/movieConstants'
+import Sentiment from 'sentiment'
 
 const Moviepage = ({ match }) => {
+  const [comment, setComment] = useState('')
+  const [message, setMessage] = useState(null)
   const dispatch = useDispatch()
 
   const movieDetails = useSelector(state => state.movieDetails)
@@ -18,9 +22,37 @@ const Moviepage = ({ match }) => {
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
+  const movieCreateReview = useSelector(state => state.movieCreateReview)
+  const { success } = movieCreateReview
+
   useEffect(() => {
     dispatch(listMovieDetails(match.params.id))
-  }, [match, dispatch])
+    dispatch({ type: MOVIE_CREATE_REVIEW_RESET })
+  }, [match, dispatch, success, userInfo])
+
+  const isFormEmpty = () => {
+    if (comment.length === 0) {
+      setMessage('Comment cannot be empty')
+      return true
+    }
+    return false
+  }
+
+  const submitReview = e => {
+    e.preventDefault()
+
+    if (!isFormEmpty()) {
+      //console.log('Here')
+      setMessage(null)
+      const sentiment = new Sentiment()
+      const { comparative } = sentiment.analyze(comment)
+      //console.log(sentiment.analyze(comment))
+      //console.log(comparative)
+      const rating = ((comparative + 5) / 10) * 5
+      //console.log(rating)
+      dispatch(createMovieReview(match.params.id, rating, comment))
+    }
+  }
 
   return (
     <>
@@ -32,81 +64,121 @@ const Moviepage = ({ match }) => {
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <Row>
-          <Col md={4}>
-            <Image src={movie.image} alt={movie.name} fluid />
-          </Col>
-          <Col md={5}>
-            <ListGroup variant="flush">
-              <ListGroup.Item>
-                <h2>{movie.name}</h2>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <strong>Description: </strong>
-                <br />
-                {movie.desc}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <strong>Cast: </strong>
-                <br />
-                {movie.cast &&
-                  movie.cast.map((actor, i) =>
-                    i > 0 ? (
-                      <span key={i}>, {actor}</span>
-                    ) : (
-                      <span key={i}>{actor}</span>
-                    )
-                  )}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <strong>Director: </strong>
-                {movie.director}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <strong>Released On: </strong>
-                {movie.released}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Rating
-                  value={movie.ratings}
-                  text={` from ${movie.numReviews} reviews`}
-                />
-              </ListGroup.Item>
-            </ListGroup>
-          </Col>
-          <Col md={3}>
-            <Card>
+        <>
+          <Row>
+            <Col md={4}>
+              <Image src={movie.image} alt={movie.name} fluid />
+            </Col>
+            <Col md={5}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <Row>
-                    <Col>
-                      <strong>Shows</strong>
-                    </Col>
-                    <Col>{movie.showCount || 0}</Col>
-                  </Row>
+                  <h2>{movie.name}</h2>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <LinkContainer
-                    to={
-                      userInfo
-                        ? `/movie/${movie.refId}/shows`
-                        : `/login?redirect=movie/${movie.refId}/shows`
-                    }
-                  >
-                    <Button
-                      className="btn-block"
-                      variant="primary"
-                      type="button"
-                      disabled={movie.showCount === 0}
-                    >
-                      Book Now
-                    </Button>
-                  </LinkContainer>
+                  <strong>Description: </strong>
+                  <br />
+                  {movie.desc}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Cast: </strong>
+                  <br />
+                  {movie.cast &&
+                    movie.cast.map((actor, i) =>
+                      i > 0 ? (
+                        <span key={i}>, {actor}</span>
+                      ) : (
+                        <span key={i}>{actor}</span>
+                      )
+                    )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Director: </strong>
+                  {movie.director}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Released On: </strong>
+                  {movie.released}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Rating
+                    value={movie.ratings}
+                    text={` from ${movie.numReviews} reviews`}
+                  />
                 </ListGroup.Item>
               </ListGroup>
-            </Card>
-          </Col>
-        </Row>
+            </Col>
+            <Col md={3}>
+              <Card>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>
+                        <strong>Shows</strong>
+                      </Col>
+                      <Col>{movie.showCount || 0}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <LinkContainer
+                      to={
+                        userInfo
+                          ? `/movie/${movie.refId}/shows`
+                          : `/login?redirect=movie/${movie.refId}/shows`
+                      }
+                    >
+                      <Button
+                        className="btn-block"
+                        variant="primary"
+                        type="button"
+                        disabled={movie.showCount === 0}
+                      >
+                        Book Now
+                      </Button>
+                    </LinkContainer>
+                  </ListGroup.Item>
+                </ListGroup>
+              </Card>
+            </Col>
+          </Row>
+          <Row className="my-3">
+            <Col md={6}>
+              <h2>Reviews</h2>
+              {movie.reviews.length === 0 ? (
+                <Message variant="info">No reviews yet</Message>
+              ) : (
+                <ListGroup variant="flush">
+                  {movie.reviews.map(review => (
+                    <ListGroup.Item key={review._id}>
+                      <strong>{review.name}</strong>
+                      <Rating value={review.rating} />
+                      <p>{review.comment}</p>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
+            </Col>
+            {userInfo && (
+              <Col md={6}>
+                <h2>Write a review</h2>
+                <Form onSubmit={submitReview} className="my-2">
+                  <Form.Group controlId="comment">
+                    <Form.Control
+                      as="textarea"
+                      value={comment}
+                      onChange={e => setComment(e.target.value)}
+                      rows={5}
+                      placeholder="Write your review"
+                    ></Form.Control>
+                  </Form.Group>
+                  <Button variant="primary" className="my-3" type="submit">
+                    Submit Review
+                  </Button>
+                </Form>
+                {message && <Message>{message}</Message>}
+              </Col>
+            )}
+          </Row>
+        </>
       )}
     </>
   )

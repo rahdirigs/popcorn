@@ -18,7 +18,7 @@ const Registerpage = ({ location, history }) => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [contact, setContact] = useState('')
   const [genres, setGenres] = useState([])
-  const [values, setValues] = useState([])
+  const [values] = useState([])
   const [addressLineOne, setAddressLineOne] = useState('')
   const [addressLineTwo, setAddressLineTwo] = useState('')
   const [city, setCity] = useState('')
