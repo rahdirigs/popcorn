@@ -18,6 +18,10 @@ const InfectedPage = ({ match }) => {
     <Loader />
   ) : error ? (
     <Message>{error}</Message>
+  ) : usersContact.length === 0 ? (
+    <Message variant="success">
+      Fortunately no customers have been in contact
+    </Message>
   ) : (
     usersContact && (
       <>

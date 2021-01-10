@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler'
+import moment from 'moment'
 import sql_db from '../config/sql_db.js'
 import Movie from '../models/movieModel.js'
+import Ticket from '../models/ticketModel.js'
 
 //@desc Fetch all movies
 //@route GET /api/admin/movies
@@ -56,6 +58,18 @@ const addMovie = asyncHandler(async (req, res) => {
       } else {
         ref = result.insertId
 
+        for (let i = 0; i < genres.length; i++) {
+          sql_db.query(
+            'INSERT INTO belongsto (movieId, genre) VALUES (?, ?)',
+            [ref, genres[i]],
+            (err, result) => {
+              if (err) {
+                console.error(err)
+              }
+            }
+          )
+        }
+
         const addToMongo = async () => {
           const movie = await Movie.create({
             refId: Number(ref),
@@ -71,6 +85,7 @@ const addMovie = asyncHandler(async (req, res) => {
             desc,
             isAdult,
           })
+
           if (movie) {
             res.json(movie)
           } else {
@@ -183,6 +198,87 @@ const setScreening = asyncHandler(async (req, res) => {
   }
 })
 
+//@desc Set screening status
+//@route POST /api/admin/movies/:id/profits
+//@access public
+const getMovieProfits = asyncHandler(async (req, res) => {
+  const movie = await Movie.findOne({ refId: req.params.id })
+  const { startDate, endDate } = req.body
+
+  const allTickets = await Ticket.find({})
+  const startMoment = moment(startDate)
+  const endMoment = moment(endDate)
+
+  var ticketSold = 0,
+    seatSold = 0,
+    ticketRevenue = 0,
+    refreshmentRevenue = 0
+
+  for (let i = 0; i < allTickets.length; i++) {
+    let ticket = allTickets[i]
+
+    const isMovie = ticket.show.movie.refId === movie.refId
+    const inRange = moment(ticket.show.date).isBetween(startMoment, endMoment)
+
+    if (isMovie && inRange) {
+      ticketSold += 1
+      seatSold += ticket.seatCount
+      ticketRevenue += ticket.totalTicketPrice
+      refreshmentRevenue += ticket.refreshmentCost
+    }
+  }
+
+  const returnObj = {
+    ticketsSold: ticketSold,
+    seatsSold: seatSold,
+    ticketRev: ticketRevenue,
+    refRev: refreshmentRevenue,
+    totalRev: parseInt(ticketRevenue) + parseInt(refreshmentRevenue),
+  }
+
+  res.json(returnObj)
+})
+
+//@desc Set screening status
+//@route POST /api/admin/movies/profits
+//@access public
+const getGenreProfits = asyncHandler(async (req, res) => {
+  const { genre, startDate, endDate } = req.body
+
+  const allTickets = await Ticket.find({})
+  const startMoment = moment(startDate)
+  const endMoment = moment(endDate)
+
+  var ticketSold = 0,
+    seatSold = 0,
+    ticketRevenue = 0,
+    refreshmentRevenue = 0
+
+  for (let i = 0; i < allTickets.length; i++) {
+    let ticket = allTickets[i]
+
+    const isGenre = ticket.show.movie.genres.includes(genre)
+    const inRange = moment(ticket.show.date).isBetween(startMoment, endMoment)
+
+    if (isGenre && inRange) {
+      ticketSold += 1
+      seatSold += ticket.seatCount
+      ticketRevenue += ticket.totalTicketPrice
+      refreshmentRevenue += ticket.refreshmentCost
+    }
+  }
+
+  const returnObj = {
+    ticketsSold: ticketSold,
+    seatsSold: seatSold,
+    ticketRev: ticketRevenue,
+    refRev: refreshmentRevenue,
+    totalRev: parseInt(ticketRevenue) + parseInt(refreshmentRevenue),
+  }
+
+  res.json(returnObj)
+})
+
 export {
   getAllMovies,
   getCurrentMovies,
@@ -190,4 +286,6 @@ export {
   updateAmountSpent,
   setScreening,
   addMovie,
+  getMovieProfits,
+  getGenreProfits,
 }

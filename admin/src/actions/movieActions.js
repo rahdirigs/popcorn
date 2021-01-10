@@ -9,12 +9,18 @@ import {
   MOVIE_DETAILS_FAIL,
   MOVIE_DETAILS_REQUEST,
   MOVIE_DETAILS_SUCCESS,
+  MOVIE_GENRE_PROFITS_FAIL,
+  MOVIE_GENRE_PROFITS_REQUEST,
+  MOVIE_GENRE_PROFITS_SUCCESS,
   MOVIE_LIST_FAIL,
   MOVIE_LIST_REQUEST,
   MOVIE_LIST_SUCCESS,
   MOVIE_PAST_LIST_FAIL,
   MOVIE_PAST_LIST_REQUEST,
   MOVIE_PAST_LIST_SUCCESS,
+  MOVIE_PROFITS_FAIL,
+  MOVIE_PROFITS_REQUEST,
+  MOVIE_PROFITS_SUCCESS,
   MOVIE_START_SCREEN_FAIL,
   MOVIE_START_SCREEN_REQUEST,
   MOVIE_START_SCREEN_SUCCESS,
@@ -230,6 +236,77 @@ export const addMovie = (
   } catch (error) {
     dispatch({
       type: MOVIE_ADD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const generateMovieProfits = (
+  id,
+  startDate,
+  endDate
+) => async dispatch => {
+  try {
+    dispatch({ type: MOVIE_PROFITS_REQUEST })
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const { data } = await axios.post(
+      `/api/admin/movies/${id}/profits`,
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+      config
+    )
+
+    dispatch({ type: MOVIE_PROFITS_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: MOVIE_PROFITS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const generateGenreProfits = (
+  genre,
+  startDate,
+  endDate
+) => async dispatch => {
+  try {
+    dispatch({ type: MOVIE_GENRE_PROFITS_REQUEST })
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const { data } = await axios.post(
+      `/api/admin/movies/profits`,
+      {
+        genre: genre,
+        startDate: startDate,
+        endDate: endDate,
+      },
+      config
+    )
+
+    dispatch({ type: MOVIE_GENRE_PROFITS_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: MOVIE_GENRE_PROFITS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

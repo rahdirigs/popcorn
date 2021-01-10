@@ -16,6 +16,7 @@ import ShowListPage from './pages/ShowListPage'
 import ShowEditPage from './pages/ShowEditPage'
 import ShowAddPage from './pages/ShowAddPage'
 import InfectedPage from './pages/InfectedPage'
+import ReportsPage from './pages/ReportsPage'
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/edit/shows/:id" component={ShowEditPage} />
           <Route path="/add/shows" component={ShowAddPage} />
           <Route path="/infected/:id" component={InfectedPage} />
+          <Route path="/reports" component={ReportsPage} />
         </Container>
       </main>
       <Footer />

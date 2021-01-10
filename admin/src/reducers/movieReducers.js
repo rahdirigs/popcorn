@@ -8,12 +8,18 @@ import {
   MOVIE_DETAILS_FAIL,
   MOVIE_DETAILS_REQUEST,
   MOVIE_DETAILS_SUCCESS,
+  MOVIE_GENRE_PROFITS_FAIL,
+  MOVIE_GENRE_PROFITS_REQUEST,
+  MOVIE_GENRE_PROFITS_SUCCESS,
   MOVIE_LIST_FAIL,
   MOVIE_LIST_REQUEST,
   MOVIE_LIST_SUCCESS,
   MOVIE_PAST_LIST_FAIL,
   MOVIE_PAST_LIST_REQUEST,
   MOVIE_PAST_LIST_SUCCESS,
+  MOVIE_PROFITS_FAIL,
+  MOVIE_PROFITS_REQUEST,
+  MOVIE_PROFITS_SUCCESS,
   MOVIE_START_SCREEN_FAIL,
   MOVIE_START_SCREEN_REQUEST,
   MOVIE_START_SCREEN_SUCCESS,
@@ -126,6 +132,32 @@ export const movieAddReducer = (state = { movieInfo: {} }, action) => {
     case MOVIE_ADD_SUCCESS:
       return { loading: false, success: true, movieInfo: action.payload }
     case MOVIE_ADD_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const movieProfitsReducer = (state = { details: [] }, action) => {
+  switch (action.type) {
+    case MOVIE_PROFITS_REQUEST:
+      return { loading: true, details: [] }
+    case MOVIE_PROFITS_SUCCESS:
+      return { loading: false, details: action.payload }
+    case MOVIE_PROFITS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const genreProfitsReducer = (state = { details: [] }, action) => {
+  switch (action.type) {
+    case MOVIE_GENRE_PROFITS_REQUEST:
+      return { loading: true, details: [] }
+    case MOVIE_GENRE_PROFITS_SUCCESS:
+      return { loading: false, details: action.payload }
+    case MOVIE_GENRE_PROFITS_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

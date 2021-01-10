@@ -9,11 +9,13 @@ import {
   refreshmentUpdateReducer,
 } from './reducers/refreshmentReducers'
 import {
+  genreProfitsReducer,
   movieAddReducer,
   movieCurrentListReducer,
   movieDetailsReducer,
   movieListReducer,
   moviePastListReducer,
+  movieProfitsReducer,
   movieStartScreenReducer,
   movieStopScreenReducer,
   movieUpdateReducer,
@@ -52,6 +54,8 @@ const reducer = combineReducers({
   movieStartScreen: movieStartScreenReducer,
   movieStopScreen: movieStopScreenReducer,
   movieAdd: movieAddReducer,
+  movieProfits: movieProfitsReducer,
+  genreProfits: genreProfitsReducer,
   employeeList: employeeListReducer,
   employeeCurrentList: employeeCurrentListReducer,
   employeePastList: employeePastListReducer,

@@ -70,10 +70,7 @@ const registerUser = asyncHandler(async (req, res) => {
   })
 
   if (user) {
-    const {
-      err,
-      result,
-    } = sql_db.query(
+    sql_db.query(
       'INSERT INTO users (firstName, lastName, email, password, contact, addressLineOne, addressLineTwo, city, pincode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         firstName,
@@ -85,8 +82,26 @@ const registerUser = asyncHandler(async (req, res) => {
         addressLineTwo,
         city,
         pincode,
-      ]
+      ],
+      (err, result) => {
+        if (err) {
+          console.error(err)
+        }
+      }
     )
+
+    for (let i = 0; i < genres.length; i++) {
+      sql_db.query(
+        'INSERT INTO prefers (email, genre) VALUES (?, ?)',
+        [email, genres[i]],
+        (err, result) => {
+          if (err) {
+            console.error(err)
+          }
+        }
+      )
+    }
+
     res.status(201).json({
       _id: user._id,
       firstName: user.firstName,
