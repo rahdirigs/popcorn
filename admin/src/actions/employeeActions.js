@@ -3,6 +3,9 @@ import {
   EMPLOYEE_ADD_FAIL,
   EMPLOYEE_ADD_REQUEST,
   EMPLOYEE_ADD_SUCCESS,
+  EMPLOYEE_CONTACT_FAIL,
+  EMPLOYEE_CONTACT_REQUEST,
+  EMPLOYEE_CONTACT_SUCCESS,
   EMPLOYEE_CURRENT_LIST_FAIL,
   EMPLOYEE_CURRENT_LIST_REQUEST,
   EMPLOYEE_CURRENT_LIST_SUCCESS,
@@ -172,6 +175,23 @@ export const registerEmployee = (
   } catch (error) {
     dispatch({
       type: EMPLOYEE_ADD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const traceContact = id => async dispatch => {
+  try {
+    dispatch({ type: EMPLOYEE_CONTACT_REQUEST })
+
+    const { data } = await axios.get(`/api/employees/infected/${id}`)
+    dispatch({ type: EMPLOYEE_CONTACT_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: EMPLOYEE_CONTACT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

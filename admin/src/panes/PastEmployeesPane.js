@@ -43,8 +43,6 @@ const PastEmployeesPane = () => {
           <th>Email</th>
           <th>Date of Birth</th>
           <th>Contact</th>
-          <th>Ratings</th>
-          <th>Reviews</th>
           <td></td>
         </tr>
       </thead>
@@ -57,8 +55,6 @@ const PastEmployeesPane = () => {
               <td>{employee.email}</td>
               <td>{employee.dateOfBirth}</td>
               <td>{employee.contact}</td>
-              <td>{employee.ratings}</td>
-              <td>{employee.numReviews}</td>
               <td>
                 <Button
                   variant="success"

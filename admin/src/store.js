@@ -20,6 +20,7 @@ import {
 } from './reducers/movieReducers'
 import {
   employeeAddReducer,
+  employeeContactReducer,
   employeeCurrentListReducer,
   employeeListReducer,
   employeePastListReducer,
@@ -57,6 +58,7 @@ const reducer = combineReducers({
   employeeStartWork: employeeStartWorkReducer,
   employeeStopWork: employeeStopWorkReducer,
   employeeAdd: employeeAddReducer,
+  employeeContact: employeeContactReducer,
   showCreate: showCreateReducer,
   showDetails: showDetailsReducer,
   showFutureList: showFutureListReducer,

@@ -2,6 +2,9 @@ import {
   EMPLOYEE_ADD_FAIL,
   EMPLOYEE_ADD_REQUEST,
   EMPLOYEE_ADD_SUCCESS,
+  EMPLOYEE_CONTACT_FAIL,
+  EMPLOYEE_CONTACT_REQUEST,
+  EMPLOYEE_CONTACT_SUCCESS,
   EMPLOYEE_CURRENT_LIST_FAIL,
   EMPLOYEE_CURRENT_LIST_REQUEST,
   EMPLOYEE_CURRENT_LIST_SUCCESS,
@@ -97,6 +100,22 @@ export const employeeAddReducer = (state = { employeeInfo: {} }, action) => {
     case EMPLOYEE_ADD_SUCCESS:
       return { loading: false, success: true, employeeInfo: action.payload }
     case EMPLOYEE_ADD_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const employeeContactReducer = (
+  state = { usersContact: [] },
+  action
+) => {
+  switch (action.type) {
+    case EMPLOYEE_CONTACT_REQUEST:
+      return { loading: true, usersContact: [] }
+    case EMPLOYEE_CONTACT_SUCCESS:
+      return { loading: false, usersContact: action.payload }
+    case EMPLOYEE_CONTACT_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

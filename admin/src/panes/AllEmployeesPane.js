@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { Table } from 'react-bootstrap'
+import { Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { listAllEmployees } from '../actions/employeeActions'
+import { LinkContainer } from 'react-router-bootstrap'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 
@@ -30,8 +31,7 @@ const AllEmployeesPane = () => {
           <th>Email</th>
           <th>Date of Birth</th>
           <th>Contact</th>
-          <th>Ratings</th>
-          <th>Reviews</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -43,8 +43,13 @@ const AllEmployeesPane = () => {
               <td>{employee.email}</td>
               <td>{employee.dateOfBirth}</td>
               <td>{employee.contact}</td>
-              <td>{employee.ratings}</td>
-              <td>{employee.numReviews}</td>
+              <td>
+                <LinkContainer to={`/infected/${employee.id}`}>
+                  <Button variant="danger" className="btn-sm">
+                    <i className="fas fa-virus"></i>
+                  </Button>
+                </LinkContainer>
+              </td>
             </tr>
           ))
         ) : (

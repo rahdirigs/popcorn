@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler'
+import moment from 'moment'
 import sql_db from '../config/sql_db.js'
 import Employee from '../models/employeeModel.js'
+import Ticket from '../models/ticketModel.js'
 
 //@desc Fetch all employees
 //@route GET /api/employees
@@ -160,6 +162,45 @@ const registerEmployee = asyncHandler(async (req, res) => {
   )
 })
 
+//@desc Trace contact
+//@route GET /api/employees/infected/:id
+//@access public
+const traceInfections = asyncHandler(async (req, res) => {
+  const employee = await Employee.findOne({ refId: req.params.id })
+  const today = moment()
+  const lower = moment().subtract(28, 'days')
+
+  if (employee) {
+    const allTickets = await Ticket.find({})
+    let users = []
+
+    allTickets.map(ticket => {
+      if (ticket.employee) {
+        if (
+          ticket.employee.refId === employee.refId &&
+          moment(ticket.show.date).isBetween(lower, today)
+        ) {
+          users.push(ticket.user)
+        }
+      }
+    })
+
+    let finalUsers = [],
+      userEmails = []
+    users.map(user => {
+      if (!userEmails.includes(user.email)) {
+        finalUsers.push(user)
+        userEmails.push(user.email)
+      }
+    })
+
+    res.json(finalUsers)
+  } else {
+    res.status(404)
+    throw new Error('Employee not found!!!')
+  }
+})
+
 export {
   getAllEmployees,
   getCurrentEmployees,
@@ -167,4 +208,5 @@ export {
   toggleWorkingStatus,
   registerEmployee,
   getCurrentEmployeesFromMongo,
+  traceInfections,
 }

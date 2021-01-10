@@ -51,12 +51,6 @@ const Header = () => {
                   Reports
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/utilities">
-                <Nav.Link>
-                  <i className="fas fa-wrench mx-2"></i>
-                  Utilities
-                </Nav.Link>
-              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Container>

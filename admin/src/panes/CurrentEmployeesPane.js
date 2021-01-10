@@ -43,8 +43,6 @@ const CurrentEmployeesPane = () => {
           <th>Email</th>
           <th>Date of Birth</th>
           <th>Contact</th>
-          <th>Ratings</th>
-          <th>Reviews</th>
           <th></th>
         </tr>
       </thead>
@@ -57,8 +55,6 @@ const CurrentEmployeesPane = () => {
               <td>{employee.email}</td>
               <td>{employee.dateOfBirth}</td>
               <td>{employee.contact}</td>
-              <td>{employee.ratings}</td>
-              <td>{employee.numReviews}</td>
               <td>
                 <Button
                   variant="danger"

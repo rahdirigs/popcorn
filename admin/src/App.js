@@ -15,6 +15,7 @@ import EmployeeAddPage from './pages/EmployeeAddPage'
 import ShowListPage from './pages/ShowListPage'
 import ShowEditPage from './pages/ShowEditPage'
 import ShowAddPage from './pages/ShowAddPage'
+import InfectedPage from './pages/InfectedPage'
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/shows" component={ShowListPage} />
           <Route path="/edit/shows/:id" component={ShowEditPage} />
           <Route path="/add/shows" component={ShowAddPage} />
+          <Route path="/infected/:id" component={InfectedPage} />
         </Container>
       </main>
       <Footer />
