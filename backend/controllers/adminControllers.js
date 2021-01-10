@@ -152,6 +152,18 @@ const setScreening = asyncHandler(async (req, res) => {
     movie.isScreening = isScreening === 1 ? true : false
     const updatedMovie = await movie.save()
 
+    if (isScreening === 0) {
+      sql_db.query(
+        'UPDATE movies SET projected = earned WHERE id = ?',
+        [req.params.id],
+        (err, result) => {
+          if (err) {
+            console.error(err)
+          }
+        }
+      )
+    }
+
     sql_db.query(
       'UPDATE movies SET isScreening = ? WHERE id = ?',
       [isScreening, req.params.id],

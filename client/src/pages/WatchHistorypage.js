@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBookings } from '../actions/bookingActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import { listDoneShows } from '../actions/showActions'
 
 const WatchHistorypage = ({ history }) => {
   const dispatch = useDispatch()
@@ -12,22 +13,23 @@ const WatchHistorypage = ({ history }) => {
   const { userInfo } = userLogin
 
   const getTickets = useSelector(state => state.getTickets)
-  const { loading, error, tickets } = getTickets
+  const { error, tickets } = getTickets
 
   const showDone = useSelector(state => state.showDone)
-  const { doneShows } = showDone
+  const { loading: showLoading, doneShows } = showDone
 
   useEffect(() => {
     if (!userInfo) {
       history.push('/login?redirect=watch-history')
     } else {
       dispatch(getBookings())
+      dispatch(listDoneShows())
     }
   }, [history, userInfo, dispatch])
 
   return (
     <>
-      {loading ? (
+      {showLoading ? (
         <Loader />
       ) : error ? (
         <Message>{error}</Message>

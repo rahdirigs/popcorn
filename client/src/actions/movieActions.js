@@ -9,6 +9,9 @@ import {
   MOVIE_LIST_FAIL,
   MOVIE_LIST_REQUEST,
   MOVIE_LIST_SUCCESS,
+  MOVIE_RECOMMENDED_FAIL,
+  MOVIE_RECOMMENDED_REQUEST,
+  MOVIE_RECOMMENDED_SUCCESS,
 } from '../constants/movieConstants'
 
 export const listMovies = () => async dispatch => {
@@ -37,6 +40,23 @@ export const listMovieDetails = id => async dispatch => {
   } catch (error) {
     dispatch({
       type: MOVIE_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const listTopMovies = () => async dispatch => {
+  try {
+    dispatch({ type: MOVIE_RECOMMENDED_REQUEST })
+
+    const { data } = await axios.get('/api/movies/recommended')
+    dispatch({ type: MOVIE_RECOMMENDED_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: MOVIE_RECOMMENDED_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

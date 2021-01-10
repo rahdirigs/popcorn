@@ -10,6 +10,7 @@ import Message from '../components/Message'
 import {} from '../actions/movieActions'
 import { MOVIE_CREATE_REVIEW_RESET } from '../constants/movieConstants'
 import Sentiment from 'sentiment'
+import { getWatchList } from '../actions/userActions'
 
 const Moviepage = ({ match }) => {
   const [comment, setComment] = useState('')
@@ -22,12 +23,18 @@ const Moviepage = ({ match }) => {
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
+  const userWatchedMovies = useSelector(state => state.userWatchedMovies)
+  const { loading: loadingWatched, watched } = userWatchedMovies
+
   const movieCreateReview = useSelector(state => state.movieCreateReview)
   const { success } = movieCreateReview
 
   useEffect(() => {
     dispatch(listMovieDetails(match.params.id))
     dispatch({ type: MOVIE_CREATE_REVIEW_RESET })
+    if (userInfo) {
+      dispatch(getWatchList())
+    }
   }, [match, dispatch, success, userInfo])
 
   const isFormEmpty = () => {
@@ -42,14 +49,10 @@ const Moviepage = ({ match }) => {
     e.preventDefault()
 
     if (!isFormEmpty()) {
-      //console.log('Here')
       setMessage(null)
       const sentiment = new Sentiment()
       const { comparative } = sentiment.analyze(comment)
-      //console.log(sentiment.analyze(comment))
-      //console.log(comparative)
       const rating = ((comparative + 5) / 10) * 5
-      //console.log(rating)
       dispatch(createMovieReview(match.params.id, rating, comment))
     }
   }
@@ -157,25 +160,32 @@ const Moviepage = ({ match }) => {
                 </ListGroup>
               )}
             </Col>
-            {userInfo && (
-              <Col md={6}>
-                <h2>Write a review</h2>
-                <Form onSubmit={submitReview} className="my-2">
-                  <Form.Group controlId="comment">
-                    <Form.Control
-                      as="textarea"
-                      value={comment}
-                      onChange={e => setComment(e.target.value)}
-                      rows={5}
-                      placeholder="Write your review"
-                    ></Form.Control>
-                  </Form.Group>
-                  <Button variant="primary" className="my-3" type="submit">
-                    Submit Review
-                  </Button>
-                </Form>
-                {message && <Message>{message}</Message>}
-              </Col>
+            {loadingWatched ? (
+              <Loader />
+            ) : loading ? (
+              <Loader />
+            ) : (
+              movie &&
+              watched.includes(String(movie._id)) && (
+                <Col md={6}>
+                  <h2>Write a review</h2>
+                  <Form onSubmit={submitReview} className="my-2">
+                    <Form.Group controlId="comment">
+                      <Form.Control
+                        as="textarea"
+                        value={comment}
+                        onChange={e => setComment(e.target.value)}
+                        rows={5}
+                        placeholder="Write your review"
+                      ></Form.Control>
+                    </Form.Group>
+                    <Button variant="primary" className="my-3" type="submit">
+                      Submit Review
+                    </Button>
+                  </Form>
+                  {message && <Message>{message}</Message>}
+                </Col>
+              )
             )}
           </Row>
         </>

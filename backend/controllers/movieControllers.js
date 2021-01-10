@@ -65,4 +65,19 @@ const createReview = asyncHandler(async (req, res) => {
   }
 })
 
-export { getMovies, getMovieById, createReview }
+//@desc Get recommendation
+//@route GET /api/movies/recommended
+//@access private
+const getRecommended = asyncHandler(async (req, res) => {
+  const allMovies = await Movie.find({ isScreening: true })
+
+  allMovies.sort((a, b) => (a.ratings > b.ratings ? 1 : 0))
+
+  if (allMovies.length >= 5) {
+    res.json(allMovies.slice(0, 5))
+  } else {
+    res.json(allMovies)
+  }
+})
+
+export { getMovies, getMovieById, createReview, getRecommended }

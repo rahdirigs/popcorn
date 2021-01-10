@@ -6,6 +6,9 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  USER_RECOMMENDED_FAIL,
+  USER_RECOMMENDED_REQUEST,
+  USER_RECOMMENDED_SUCCESS,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
@@ -13,6 +16,9 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_RESET,
   USER_UPDATE_PROFILE_SUCCESS,
+  USER_WATCHED_MOVIES_FAIL,
+  USER_WATCHED_MOVIES_REQUEST,
+  USER_WATCHED_MOVIES_SUCCESS,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -69,6 +75,32 @@ export const userUpdateProfileReducer = (state = {}, action) => {
       return { loading: false, error: action.payload }
     case USER_UPDATE_PROFILE_RESET:
       return {}
+    default:
+      return state
+  }
+}
+
+export const userWatchedMoviesReducer = (state = { watched: [] }, action) => {
+  switch (action.type) {
+    case USER_WATCHED_MOVIES_REQUEST:
+      return { loading: true }
+    case USER_WATCHED_MOVIES_SUCCESS:
+      return { loading: false, watched: action.payload }
+    case USER_WATCHED_MOVIES_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const userRecommendedReducer = (state = { recommended: [] }, action) => {
+  switch (action.type) {
+    case USER_RECOMMENDED_REQUEST:
+      return { loading: true }
+    case USER_RECOMMENDED_SUCCESS:
+      return { loading: false, recommended: action.payload }
+    case USER_RECOMMENDED_FAIL:
+      return { loading: false, error: action.payload }
     default:
       return state
   }

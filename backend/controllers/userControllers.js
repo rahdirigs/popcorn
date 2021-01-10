@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
+import Movie from '../models/movieModel.js'
 import sql_db from '../config/sql_db.js'
 import generateToken from '../utils/generateToken.js'
 
@@ -177,4 +178,67 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, getUserProfile, registerUser, updateUserProfile }
+//@desc Get watched movies
+//@route PUT /api/users/watched
+//@access private
+const getWatchList = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    res.json(user.watched)
+  } else {
+    res.status(404)
+    throw new Error('User not found!!!')
+  }
+})
+
+//@desc Get recommended movies
+//@route PUT /api/users/recommended
+//@access private
+const getRecommendation = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    const genres = user.genres
+    const allMovies = await Movie.find({ isScreening: true })
+
+    let recommended = []
+    allMovies.map(movie => {
+      let movieGen = movie.genres
+      let yes = false
+      genres.map(genre => {
+        if (movieGen.includes(genre)) {
+          yes = true
+        }
+      })
+      if (yes) {
+        recommended.push(movie)
+      }
+    })
+
+    if (recommended.length > 0) {
+      res.json(recommended)
+    } else {
+      allMovies.sort((a, b) => (a.ratings > b.ratings ? 1 : 0))
+
+      if (allMovies.length < 5) {
+        res.json(allMovies)
+      } else {
+        recommended = allMovies.slice(0, 5)
+        res.json(recommended)
+      }
+    }
+  } else {
+    res.status(404)
+    throw new Error('User not found!!!')
+  }
+})
+
+export {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+  getWatchList,
+  getRecommendation,
+}

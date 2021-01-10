@@ -9,6 +9,9 @@ import {
   MOVIE_LIST_FAIL,
   MOVIE_LIST_REQUEST,
   MOVIE_LIST_SUCCESS,
+  MOVIE_RECOMMENDED_FAIL,
+  MOVIE_RECOMMENDED_REQUEST,
+  MOVIE_RECOMMENDED_SUCCESS,
 } from '../constants/movieConstants'
 
 export const movieListReducer = (state = { movies: [] }, action) => {
@@ -50,6 +53,22 @@ export const movieCreateReviewReducer = (state = {}, action) => {
       return { loading: false, error: action.payload }
     case MOVIE_CREATE_REVIEW_RESET:
       return {}
+    default:
+      return state
+  }
+}
+
+export const movieRecommendedReducer = (
+  state = { recommended: [] },
+  action
+) => {
+  switch (action.type) {
+    case MOVIE_RECOMMENDED_REQUEST:
+      return { loading: true }
+    case MOVIE_RECOMMENDED_SUCCESS:
+      return { loading: false, recommended: action.payload }
+    case MOVIE_RECOMMENDED_FAIL:
+      return { loading: false, error: action.payload }
     default:
       return state
   }

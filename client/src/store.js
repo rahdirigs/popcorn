@@ -5,12 +5,15 @@ import {
   movieCreateReviewReducer,
   movieDetailsReducer,
   movieListReducer,
+  movieRecommendedReducer,
 } from './reducers/movieReducers'
 import {
   userDetailsReducer,
   userLoginReducer,
+  userRecommendedReducer,
   userRegisterReducer,
   userUpdateProfileReducer,
+  userWatchedMoviesReducer,
 } from './reducers/userReducers'
 import {
   showDetailsReducer,
@@ -28,17 +31,20 @@ const reducer = combineReducers({
   movieList: movieListReducer,
   movieDetails: movieDetailsReducer,
   movieCreateReview: movieCreateReviewReducer,
+  movieRecommended: movieRecommendedReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userWatchedMovies: userWatchedMoviesReducer,
+  userRecommended: userRecommendedReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   showFutureList: showFutureListReducer,
   showDetails: showDetailsReducer,
+  showDone: showDoneReducer,
   refreshmentList: refreshmentListReducer,
   ticketBook: ticketBookReducer,
-  employeeCurrentList: employeeCurrentListReducer,
   getTickets: getTicketsReducer,
-  showDone: showDoneReducer,
+  employeeCurrentList: employeeCurrentListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

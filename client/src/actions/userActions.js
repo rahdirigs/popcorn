@@ -7,12 +7,18 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  USER_RECOMMENDED_FAIL,
+  USER_RECOMMENDED_REQUEST,
+  USER_RECOMMENDED_SUCCESS,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
+  USER_WATCHED_MOVIES_FAIL,
+  USER_WATCHED_MOVIES_REQUEST,
+  USER_WATCHED_MOVIES_SUCCESS,
 } from '../constants/userConstants'
 
 export const login = (email, password) => async dispatch => {
@@ -152,6 +158,62 @@ export const updateUserProfile = user => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const getWatchList = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_WATCHED_MOVIES_REQUEST })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get('/api/users/watched', config)
+
+    dispatch({ type: USER_WATCHED_MOVIES_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: USER_WATCHED_MOVIES_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const getRecommendation = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_RECOMMENDED_REQUEST })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get('/api/users/recommended', config)
+
+    dispatch({ type: USER_RECOMMENDED_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: USER_RECOMMENDED_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
